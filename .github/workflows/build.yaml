@@ -1,0 +1,24 @@
+name: Test & Build
+
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+
+jobs:
+  test:
+    runs-on: [self-hosted]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: docker build --target test .
+  build:
+    needs: test
+    uses: secondlife/docker-build-workflow/.github/workflows/build.yml@signal/qemu
+    with:
+      image: platform/nginx-proxy 
+      platforms: linux/amd64,linux/arm64 
+    secrets:
+      github_pat: ${{ secrets.SHARED_GITHUB_TOKEN }}
+      jfrog_token: ${{ secrets.SHARED_JFROG_TOKEN }}

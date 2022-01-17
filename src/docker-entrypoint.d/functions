@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Shared functions for docker-entrypoint.d scripts
+
+log() {
+  if [ -z "$SILENT" ]; then
+    echo "$(basename $0) $@"
+  fi
+}

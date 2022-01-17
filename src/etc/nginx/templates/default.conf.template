@@ -1,0 +1,15 @@
+server {
+  listen {{LISTEN_PORT}};
+  server_name localhost;
+  add_header X-Request-ID $request_id;
+
+  # Security Headers
+  add_header X-Frame-Options "SAMEORIGIN";
+  add_header X-XSS-Protection "1; mode=block";
+  add_header X-Content-Type-Options "nosniff";
+  
+  location / {
+    proxy_pass {{PROXY_REVERSE_URL}};
+    proxy_set_header X-Request-ID $request_id;
+  }
+}

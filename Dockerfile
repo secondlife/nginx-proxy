@@ -1,7 +1,8 @@
 ############
 # Base 
 ############
-FROM artifactory.secondlife.io/dockerhub/alpine:3 AS base
+ARG ARCH=
+FROM artifactory.secondlife.io/dockerhub/${ARCH}alpine:3 AS base
 RUN apk add --no-cache \
     bash \
     nginx \

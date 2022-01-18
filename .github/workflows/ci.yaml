@@ -14,12 +14,15 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run tests
         run: docker build --target test .
-  build:
+  docker:
     needs: test
     uses: secondlife/docker-build-workflow/.github/workflows/build.yml@signal/qemu
     with:
       image: platform/nginx-proxy 
       platforms: linux/amd64,linux/arm64 
+      tags: latest
+      push: ${{ github.event_name != 'pull_request' }}
+      promote: ${{ github.event_name != 'pull_request' }}
     secrets:
       github_pat: ${{ secrets.SHARED_GITHUB_TOKEN }}
       jfrog_token: ${{ secrets.SHARED_JFROG_TOKEN }}

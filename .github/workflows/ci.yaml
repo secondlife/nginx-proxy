@@ -16,12 +16,11 @@ jobs:
         run: docker build --target test .
   docker:
     needs: test
-    uses: secondlife/docker-build-workflow/.github/workflows/build.yml@v2
+    uses: secondlife/docker-build-workflow/.github/workflows/build.yml@signal/semver
     with:
       image: platform/nginx-proxy 
       platforms: linux/amd64,linux/arm64 
-      tags: latest
-      push: ${{ startsWith(github.ref, 'refs/tags/v') }}
+      push: true
       promote: ${{ startsWith(github.ref, 'refs/tags/v') }}
     secrets:
       github_pat: ${{ secrets.SHARED_GITHUB_TOKEN }}

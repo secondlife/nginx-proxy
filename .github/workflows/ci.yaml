@@ -1,7 +1,6 @@
 name: Test & Build
 
 on:
-  workflow_dispatch:
   push:
     branches: main
   pull_request:
@@ -16,7 +15,7 @@ jobs:
         run: docker build --target test .
   docker:
     needs: test
-    uses: secondlife/docker-build-workflow/.github/workflows/build.yml@signal/qemu
+    uses: secondlife/docker-build-workflow/.github/workflows/build.yml@v2
     with:
       image: platform/nginx-proxy 
       platforms: linux/amd64,linux/arm64 

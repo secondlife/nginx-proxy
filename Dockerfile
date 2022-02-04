@@ -26,4 +26,7 @@ RUN /test/test.sh
 ############
 # Final 
 ############
+LABEL "com.datadoghq.ad.check_names"='["nginx"]'
+LABEL "com.datadoghq.ad.init_configs"='[{}]'
+LABEL "com.datadoghq.ad.instances"='[{"nginx_status_url": "http://%%host%%:81/nginx_status/"}]'
 FROM base

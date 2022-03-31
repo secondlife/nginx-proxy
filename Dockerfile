@@ -1,15 +1,26 @@
 ############
+# Gomplate 
+############
+FROM artifactory.secondlife.io/dockerhub/alpine:3 AS gomplate 
+ARG TARGETPLATFORM=linux/amd64
+ARG GOMPLATE_VERSION=3.10.0
+ARG GOMPLATE_AMD64_SHA256=603539aac4e09f98a8ca5b6e5da0c21213221206dc7175a5644255c7a22b936d
+ARG GOMPLATE_ARM64_SHA256=3352ef521977ee39cdd406a9a7943d0b5f29772e5542995416bf093b90bbae2c
+RUN apk add --no-cache curl bash
+SHELL ["/bin/bash", "-c"]
+RUN ARCH=${TARGETPLATFORM/linux\//} \
+    && curl -Lf https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/gomplate_linux-${ARCH}-slim -o /tmp/gomplate \ 
+    && sha_envvar="GOMPLATE_${ARCH^^}_SHA256" \
+    && GOMPLATE_SHA256="${!sha_envvar}" \
+    && echo "${GOMPLATE_SHA256}  /tmp/gomplate" | sha256sum -c \
+    && chmod +x /tmp/gomplate
+
+############
 # Base 
 ############
-ARG ARCH=
-FROM artifactory.secondlife.io/dockerhub/${ARCH}alpine:3 AS base
-ARG GOMPLATE_ARCH=amd64
-ARG GOMPLATE_SHA256=603539aac4e09f98a8ca5b6e5da0c21213221206dc7175a5644255c7a22b936d
-ARG GOMPLATE_VERSION=3.10.0
-ADD https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/gomplate_linux-${GOMPLATE_ARCH}-slim /usr/local/bin/gomplate
-RUN echo "${GOMPLATE_SHA256}  /usr/local/bin/gomplate" | sha256sum -c \
-    && chmod +x /usr/local/bin/gomplate \
-    && apk add --no-cache \
+FROM artifactory.secondlife.io/dockerhub/alpine:3 AS base
+COPY --from=gomplate /tmp/gomplate /usr/local/bin/
+RUN apk add --no-cache \
         bash \
         nginx \
         nginx-mod-http-headers-more

@@ -17,23 +17,12 @@ jobs:
   build:
     name: Build
     runs-on: [self-hosted, linux]
-    strategy:
-      matrix:
-        arch: [amd64, arm64]
-        include:
-          - arch: amd64
-            gomplate_sha256: 603539aac4e09f98a8ca5b6e5da0c21213221206dc7175a5644255c7a22b936d
-          - arch: arm64
-            gomplate_sha256: 3352ef521977ee39cdd406a9a7943d0b5f29772e5542995416bf093b90bbae2c
     needs: test
     steps:
       - uses: actions/checkout@v3
       - uses: secondlife/action-build-docker@v1
         with:
-          image: platform/nginx-proxy 
-          platforms: linux/${{ matrix.arch }}
+          image: /platform/nginx-proxy 
+          platforms: linux/amd64,linux/arm64
           promote: ${{ startsWith(github.ref, 'refs/tags/v') }}
           jfrog-token: ${{ secrets.SHARED_JFROG_TOKEN }}
-          build-args: |
-            GOMPLATE_ARCH=${{ matrix.arch }}
-            GOMPLATE_SHA256=${{ matrix.gomplate_sha256 }}

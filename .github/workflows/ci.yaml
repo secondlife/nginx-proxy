@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: secondlife/action-build-docker@v1
         with:
-          image: /platform/nginx-proxy 
+          image: platform/nginx-proxy 
           platforms: linux/amd64,linux/arm64
           promote: ${{ startsWith(github.ref, 'refs/tags/v') }}
           jfrog-token: ${{ secrets.SHARED_JFROG_TOKEN }}

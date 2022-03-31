@@ -1,5 +1,5 @@
 server {
-  listen {{LISTEN_PORT}};
+  listen {{ .Env.LISTEN_PORT }};
   server_name localhost;
   add_header X-Request-ID $request_id;
 
@@ -9,7 +9,16 @@ server {
   add_header X-Content-Type-Options "nosniff";
   
   location / {
-    proxy_pass {{PROXY_REVERSE_URL}};
+    proxy_pass {{ .Env.PROXY_REVERSE_URL }};
     proxy_set_header X-Request-ID $request_id;
   }
+
+  {{ if .Env.STATIC_LOCATIONS }}
+  {{ range (.Env.STATIC_LOCATIONS | strings.Split "," )}}
+  {{ $l := (. | strings.Split ":" )}}
+  location {{index $l 0 }} {
+    alias {{index $l 1 }};
+  }
+  {{ end }}
+  {{ end }}
 }

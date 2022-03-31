@@ -7,7 +7,10 @@ function fail {
     exit 1
 }
 
-LISTEN_PORT="8080" PROXY_REVERSE_URL="http://localhost:8081" /docker-entrypoint.sh
+LISTEN_PORT="8080" \
+PROXY_REVERSE_URL="http://localhost:8081" \
+STATIC_LOCATIONS="/static/:/test/static/" \
+  /docker-entrypoint.sh
 
 go build -o app main.go
 

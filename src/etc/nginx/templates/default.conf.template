@@ -1,6 +1,16 @@
+# Default configuration returns 400 in order to deny any request with an 
+# unrecognized host header (server_name.)
+{{ if (ne .Env.SERVER_NAME "_") }}
+server {
+    listen {{ .Env.LISTEN_PORT }};
+    server_name _;
+    return 400;
+}
+{{ end }}
+
 server {
   listen {{ .Env.LISTEN_PORT }};
-  server_name _;
+  server_name {{ .Env.SERVER_NAME }};
   add_header X-Request-ID $request_id;
 
   # Security Headers

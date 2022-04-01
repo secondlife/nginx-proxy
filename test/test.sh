@@ -9,6 +9,7 @@ function fail {
 
 LISTEN_PORT="8080" \
 PROXY_REVERSE_URL="http://localhost:8081" \
+SERVER_NAME="localhost" \
 STATIC_LOCATIONS="/static/:/test/static/" \
   /docker-entrypoint.sh
 

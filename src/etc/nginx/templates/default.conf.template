@@ -1,6 +1,6 @@
 server {
   listen {{ .Env.LISTEN_PORT }};
-  server_name localhost;
+  server_name _;
   add_header X-Request-ID $request_id;
 
   # Security Headers
@@ -11,6 +11,7 @@ server {
   location / {
     proxy_pass {{ .Env.PROXY_REVERSE_URL }};
     proxy_set_header X-Request-ID $request_id;
+    proxy_set_header Host $host;
   }
 
   {{ if .Env.STATIC_LOCATIONS }}

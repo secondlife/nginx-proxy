@@ -74,6 +74,11 @@ func TestProxy(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	parsed, err := url.Parse(u)
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	req, err := http.NewRequest("GET", u, nil)
 
 	if err != nil {
@@ -117,5 +122,11 @@ func TestProxy(t *testing.T) {
 		if h == "" {
 			t.Fatalf("Expected %s header to be set", k)
 		}
+	}
+
+	expectedHost := strings.Split(parsed.Host, ":")[0]
+	hostHeader := res.Header.Get("X-Test-Host")
+	if hostHeader != expectedHost {
+		t.Fatalf("Expected Host header to be %s, got %s", expectedHost, hostHeader)
 	}
 }

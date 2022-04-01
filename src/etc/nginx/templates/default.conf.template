@@ -1,6 +1,6 @@
 server {
   listen {{ .Env.LISTEN_PORT }};
-  server_name _;
+  server_name {{ .Env.SERVER_NAME }};
   add_header X-Request-ID $request_id;
 
   # Security Headers

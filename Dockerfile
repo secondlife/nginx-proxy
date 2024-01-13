@@ -1,7 +1,7 @@
 ############
 # Gomplate 
 ############
-FROM artifactory.secondlife.io/dockerhub/alpine:3 AS gomplate 
+FROM alpine:3 AS gomplate 
 ARG TARGETPLATFORM=linux/amd64
 ARG GOMPLATE_VERSION=3.10.0
 ARG GOMPLATE_AMD64_SHA256=603539aac4e09f98a8ca5b6e5da0c21213221206dc7175a5644255c7a22b936d
@@ -18,7 +18,7 @@ RUN ARCH=${TARGETPLATFORM/linux\//} \
 ############
 # Base 
 ############
-FROM artifactory.secondlife.io/dockerhub/alpine:3 AS base
+FROM alpine:3 AS base
 COPY --from=gomplate /tmp/gomplate /usr/local/bin/
 RUN apk add --no-cache \
         bash \

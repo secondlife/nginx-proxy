@@ -13,6 +13,7 @@ Pair nginx-proxy with your favorite upstream server (wsgi, uwsgi, asgi, et al.)
 | `SERVER_NAME` | Allowed server names (hostnames) | Yes | | |
 | `SILENT` | Silence entrypoint output | No | | |
 | `STATIC_LOCATIONS` | Static asset mappings | No | | |
+| `PROXY_UWSGI` | Whether to use native uwsgi support | No | 0 | 1 |
 
 ### Hosting Static Assets
 
@@ -40,6 +41,13 @@ volumes:
 ```
 
 The syntax of `STATIC_LOCATIONS` is `HOSTED_PATH1:LOCAL_PATH1,HOSTED_PATH2:LOCAL_PATH2`
+
+## uWSGI
+
+If you wish to use this service with uWSGI then define `PROXY_UWSGI=1` and set
+`PROXY_REVERSE_URL` to be the uwsgi `--socket` address of your app. (Do not
+use `http://`, ex. if your uwsgi server is hosting itself at `--socket :8000`
+then set `PROXY_REVERSE_URL=localhost:8000`.)
 
 ## Development
 

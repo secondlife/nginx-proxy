@@ -25,6 +25,7 @@ RUN apk add --no-cache \
         nginx \
         nginx-mod-http-headers-more
 COPY src /
+ENV PROXY_UWSGI=0
 ENV LISTEN_PORT=80
 ENV STATIC_LOCATIONS=
 EXPOSE 80
@@ -36,10 +37,15 @@ CMD ["nginx", "-g", "daemon off;"]
 # Run tests
 ############
 FROM base AS test
-RUN apk add --no-cache curl go
+RUN apk add --no-cache curl go uwsgi-python3
+
 COPY test /test
 WORKDIR /test
 RUN /test/test.sh
+
+COPY test_uwsgi /test_uwsgi
+WORKDIR /test_uwsgi
+RUN /test_uwsgi/test.sh
 
 ############
 # Final 

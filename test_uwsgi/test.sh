@@ -8,15 +8,14 @@ function fail {
 }
 
 LISTEN_PORT="8080" \
-PROXY_REVERSE_URL="http://localhost:8081" \
+PROXY_REVERSE_URL="localhost:8081" \
 SERVER_NAME="localhost" \
+PROXY_UWSGI="1" \
 STATIC_LOCATIONS="/static/:/test/static/" \
   /docker-entrypoint.sh
 
-go build -o app main.go
-
 # Start test server
-LISTEN_PORT=8081 /test/app &
+uwsgi --socket ":8081" --master --plugin python --wsgi-file app.py &
 app=$!
 
 # Start reverse proxy
@@ -32,7 +31,4 @@ cleanup() {
 
 trap cleanup EXIT
 
-TEST_URL="http://localhost:8080" go test
-
-# Clean up, but leave this file if it fails
-rm /etc/nginx/conf.d/default.conf
+curl -fs http://localhost:8080/ || fail "Failed to get /"

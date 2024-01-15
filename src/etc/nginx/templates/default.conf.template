@@ -18,11 +18,20 @@ server {
   add_header X-XSS-Protection "1; mode=block";
   add_header X-Content-Type-Options "nosniff";
   
+  {{ if (eq .Env.PROXY_UWSGI "1") }}
+  location / {
+    uwsgi_pass {{ .Env.PROXY_REVERSE_URL }};
+    uwsgi_param HTTP_X_REQUEST_ID $request_id;
+    uwsgi_param HTTP_HOST $host;
+    include uwsgi_params;
+  }
+  {{ else }}
   location / {
     proxy_pass {{ .Env.PROXY_REVERSE_URL }};
     proxy_set_header X-Request-ID $request_id;
     proxy_set_header Host $host;
   }
+  {{ end }}
 
   {{ if .Env.STATIC_LOCATIONS }}
   {{ range (.Env.STATIC_LOCATIONS | strings.Split "," )}}

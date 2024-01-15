@@ -25,6 +25,7 @@ RUN apk add --no-cache \
         nginx \
         nginx-mod-http-headers-more
 COPY src /
+ENV KEEPALIVE_TIMEOUT=65
 ENV PROXY_UWSGI=0
 ENV LISTEN_PORT=80
 ENV STATIC_LOCATIONS=

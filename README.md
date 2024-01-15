@@ -14,6 +14,7 @@ Pair nginx-proxy with your favorite upstream server (wsgi, uwsgi, asgi, et al.)
 | `SILENT` | Silence entrypoint output | No | | |
 | `STATIC_LOCATIONS` | Static asset mappings | No | | |
 | `PROXY_UWSGI` | Whether to use native uwsgi support | No | 0 | 1 |
+| `KEEPALIVE_TIMEOUT` | What value to set HTTP keepalive (This should be higher than your ELB's timeout) | Yes | 65 | |
 
 ### Hosting Static Assets
 

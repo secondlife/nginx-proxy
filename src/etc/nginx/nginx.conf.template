@@ -24,7 +24,7 @@ http {
     #sendfile       on;
     #tcp_nopush     on;
 
-    keepalive_timeout  65;
+    keepalive_timeout  {{ .Env.KEEPALIVE_TIMEOUT }};
     #gzip  on;
 
     # Don't leak information about this server.

@@ -8,6 +8,10 @@ server {
 }
 {{ end }}
 
+upstream app {
+  server {{ .Env.UPSTREAM_SERVER }};
+}
+
 server {
   listen {{ .Env.LISTEN_PORT }};
   server_name {{ .Env.SERVER_NAME }};
@@ -20,7 +24,7 @@ server {
   
   {{ if (eq .Env.PROXY_UWSGI "1") }}
   location / {
-    uwsgi_pass {{ .Env.PROXY_REVERSE_URL }};
+    uwsgi_pass app;
     uwsgi_param HTTP_X_REQUEST_ID $request_id;
     uwsgi_param HTTP_HOST $host;
     include uwsgi_params;
@@ -29,9 +33,10 @@ server {
   }
   {{ else }}
   location / {
-    proxy_pass {{ .Env.PROXY_REVERSE_URL }};
     proxy_set_header X-Request-ID $request_id;
     proxy_set_header Host $host;
+    proxy_redirect off;
+    proxy_pass http://app; 
   }
   {{ end }}
 

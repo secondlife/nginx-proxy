@@ -9,7 +9,8 @@ Pair nginx-proxy with your favorite upstream server (wsgi, uwsgi, asgi, et al.)
 | Environment Variable | Description | Required | Default | Example |
 |----------------------|-------------|----------|---------|---------|
 | `LISTEN_PORT` | Server port | Yes | 80 | |
-| `PROXY_REVERSE_URL` | Upstream server URL | Yes | | http://myapp:8080 |
+| `UPSTREAM_SERVER` | Upstream server | Yes | | myapp:8080 fail_timeout=0, unix://mnt/server.sock |
+| `PROXY_REVERSE_URL` | Upstream server URL (Deprecated, please use UPSTREAM_SERVER) | No | | http://myapp:8080 |
 | `SERVER_NAME` | Allowed server names (hostnames) | Yes | | |
 | `SILENT` | Silence entrypoint output | No | | |
 | `STATIC_LOCATIONS` | Static asset mappings | No | | |
@@ -46,7 +47,7 @@ The syntax of `STATIC_LOCATIONS` is `HOSTED_PATH1:LOCAL_PATH1,HOSTED_PATH2:LOCAL
 ## uWSGI
 
 If you wish to use this service with uWSGI then define `PROXY_UWSGI=1` and set
-`PROXY_REVERSE_URL` to be the uwsgi `--socket` address of your app. (Do not
+`UPSTREAM_SERVER` to be the uwsgi `--socket` address of your app. (Do not
 use `http://`, ex. if your uwsgi server is hosting itself at `--socket :8000`
 then set `PROXY_REVERSE_URL=localhost:8000`.)
 

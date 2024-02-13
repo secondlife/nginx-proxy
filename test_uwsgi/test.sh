@@ -9,7 +9,7 @@ function fail {
 
 LISTEN_PORT="8080" \
 KEEPALIVE_TIMEOUT="65" \
-PROXY_REVERSE_URL="localhost:8081" \
+UPSTREAM_SERVER="localhost:8081" \
 SERVER_NAME="localhost" \
 PROXY_UWSGI="1" \
 STATIC_LOCATIONS="/static/:/test/static/" \

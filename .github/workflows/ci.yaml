@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run tests
-        run: docker build --target test .
+        run: docker build --build-arg TARGETPLATFORM=linux/amd64 --target test .
   build:
     name: Build
     runs-on: [self-hosted, linux]

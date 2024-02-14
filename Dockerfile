@@ -54,4 +54,4 @@ RUN /test_uwsgi/test.sh
 FROM base
 LABEL "com.datadoghq.ad.check_names"='["nginx"]'
 LABEL "com.datadoghq.ad.init_configs"='[{}]'
-LABEL "com.datadoghq.ad.instances"='[{"nginx_status_url": "http://%%host%%:81/nginx_status/"}]'
+LABEL "com.datadoghq.ad.instances"='[{"nginx_status_url": "http://%%host%%:8091/nginx_status/"}]'

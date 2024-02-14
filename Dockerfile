@@ -1,28 +1,10 @@
 ############
-# Gomplate 
-############
-FROM alpine:3 AS gomplate 
-ARG TARGETPLATFORM
-ARG GOMPLATE_VERSION=3.11.7
-ARG GOMPLATE_AMD64_SHA256=8010a1a4ff15db238f61f02cd716d677aff9a4c7b59335008183f897f46ca9a5
-ARG GOMPLATE_ARM64_SHA256=57ebc2ca8c231a24d5664145f9e731c61a260328ca3a6118fca8b94c37075cd8
-RUN apk add --no-cache curl bash
-SHELL ["/bin/bash", "-c"]
-RUN echo "Downloading gomplate version ${GOMPLATE_VERSION} for ${TARGETPLATFORM}" \
-    && ARCH=${TARGETPLATFORM/linux\//} \
-    && curl -Lf https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/gomplate_linux-${ARCH}-slim -o /tmp/gomplate \ 
-    && sha_envvar="GOMPLATE_${ARCH^^}_SHA256" \
-    && GOMPLATE_SHA256="${!sha_envvar}" \
-    && echo "${GOMPLATE_SHA256}  /tmp/gomplate" | sha256sum -c \
-    && chmod +x /tmp/gomplate
-
-############
 # Base 
 ############
 FROM alpine:3 AS base
-COPY --from=gomplate /tmp/gomplate /usr/local/bin/
 RUN apk add --no-cache \
         bash \
+        gomplate \
         nginx \
         nginx-mod-http-headers-more
 COPY src /

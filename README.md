@@ -16,6 +16,7 @@ Pair nginx-proxy with your favorite upstream server (wsgi, uwsgi, asgi, et al.)
 | `STATIC_LOCATIONS` | Static asset mappings | No | | |
 | `PROXY_UWSGI` | Whether to use native uwsgi support | No | 0 | 1 |
 | `KEEPALIVE_TIMEOUT` | What value to set HTTP keepalive (This should be higher than your ELB's timeout) | Yes | 65 | |
+| `HEALTHCHECK_PATH` | nginx-proxy disables healthcheck path access logs, you can configure the path here | Yes | /lb-status/ | |
 
 ### Hosting Static Assets
 

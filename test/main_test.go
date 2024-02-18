@@ -27,6 +27,35 @@ func getHTTPClient() *http.Client {
 	}
 }
 
+func TestHealth(t *testing.T) {
+	u, err := getTestURL()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	parsed, err := url.Parse(u)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	req, err := http.NewRequest("GET", parsed.JoinPath("/health").String(), nil)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	client := getHTTPClient()
+	res, err := client.Do(req)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if res.StatusCode != http.StatusOK {
+		t.Fatalf("Expected HTTP %d but got %d", http.StatusOK, res.StatusCode)
+	}
+}
+
 func TestStatic(t *testing.T) {
 	u, err := getTestURL()
 	if err != nil {

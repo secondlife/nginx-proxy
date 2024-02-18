@@ -1,0 +1,6 @@
+uwsgi_pass app;
+uwsgi_param HTTP_X_REQUEST_ID $request_id;
+uwsgi_param HTTP_HOST $host;
+include uwsgi_params;
+uwsgi_read_timeout {{ .Env.KEEPALIVE_TIMEOUT }};
+uwsgi_send_timeout {{ .Env.KEEPALIVE_TIMEOUT }};

@@ -45,8 +45,10 @@ http {
     more_clear_headers "Server";
     more_clear_headers "server";
 
-    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/includes/log-format.conf;
 
     # For docker logs to work, we need to output to stdout/stderr
     access_log /dev/stdout json_analytics;
+
+    include /etc/nginx/conf.d/*.conf;
 }

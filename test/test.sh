@@ -11,6 +11,7 @@ LISTEN_PORT="8080" \
 KEEPALIVE_TIMEOUT="65" \
 PROXY_REVERSE_URL="http://localhost:8081" \
 SERVER_NAME="localhost" \
+HEALTHCHECK_PATH="/health" \
 STATIC_LOCATIONS="/static/:/test/static/" \
   /docker-entrypoint.sh
 

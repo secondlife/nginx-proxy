@@ -1,6 +1,14 @@
 # nginx-proxy
 
-A reverse proxy container with safe defaults for production environments.
+A reverse proxy container with safe defaults for production environments. Its
+primary goal is to run as a sidecar alongside an application container in
+environments such as AWS ECS.
+
+## Features
+
+- Structured logs with a lot more data than the standard nginx access format. 
+- [uWSGI][] support
+- Support for hosting static assets mounted from another container
 
 ## Use
 
@@ -70,3 +78,4 @@ Notable differences from the official [nginx container][]
 
 [nginx container]: https://hub.docker.com/_/nginx
 [gomplate]: https://docs.gomplate.ca/
+[uwsgi]: https://uwsgi-docs.readthedocs.io/en/latest/

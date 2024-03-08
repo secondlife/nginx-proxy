@@ -60,6 +60,12 @@ If you wish to use this service with uWSGI then define `PROXY_UWSGI=1` and set
 use `http://`, ex. if your uwsgi server is hosting itself at `--socket :8000`
 then set `PROXY_REVERSE_URL=localhost:8000`.)
 
+## Nginx status
+
+The [nginx status][] page is configured to run at
+http://localhost:8091/nginx_status. This endpoint can be used by Datadog and
+other metrics collectors.
+
 ## Development
 
 A test suite is baked into nginx-proxy's Dockerfile. You can run it by building
@@ -79,3 +85,4 @@ Notable differences from the official [nginx container][]
 [nginx container]: https://hub.docker.com/_/nginx
 [gomplate]: https://docs.gomplate.ca/
 [uwsgi]: https://uwsgi-docs.readthedocs.io/en/latest/
+[nginx status]: https://nginx.org/en/docs/http/ngx_http_stub_status_module.html

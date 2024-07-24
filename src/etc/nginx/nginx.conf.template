@@ -47,8 +47,18 @@ http {
 
     include /etc/nginx/includes/log-format.conf;
 
+    # "5XX" filter for logging
+    map $status $is5xx {
+        ~^[5] 1;
+        default 0;
+    }
+
+    {{ if (eq .Env.LOG_ONLY_5XX "1") }}
+    access_log /dev/stdout json_analytics if=$is5xx;
+    {{ else }}
     # For docker logs to work, we need to output to stdout/stderr
     access_log /dev/stdout json_analytics;
+    {{ end }}
 
     include /etc/nginx/conf.d/*.conf;
 }

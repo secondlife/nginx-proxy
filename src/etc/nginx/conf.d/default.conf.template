@@ -30,6 +30,9 @@ server {
     {{ end }}
   }
 
+  {{ if (eq .Env.NO_ACCESS_LOGS "1" ) }}
+  access_log off;
+  {{ else }}
   location {{ .Env.HEALTHCHECK_PATH }} {
     access_log off;
     {{ if (eq .Env.PROXY_UWSGI "1") }}
@@ -38,6 +41,7 @@ server {
     include /etc/nginx/includes/proxy.conf;
     {{ end }}
   }
+  {{ end }}
 
   {{ if .Env.STATIC_LOCATIONS }}
   {{ range (.Env.STATIC_LOCATIONS | strings.Split "," )}}

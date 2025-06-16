@@ -1,5 +1,5 @@
 ############
-# Base 
+# Base
 ############
 FROM alpine:3 AS base
 RUN apk add --no-cache \
@@ -15,6 +15,7 @@ ENV HEALTHCHECK_PATH="/lb-status/"
 ENV STATIC_LOCATIONS=
 ENV NO_ACCESS_LOGS=0
 ENV LOG_ONLY_5XX=0
+ENV WORKER_CONNECTIONS=1024
 EXPOSE 80
 STOPSIGNAL SIGQUIT
 ENTRYPOINT ["/docker-entrypoint.sh"]
@@ -35,7 +36,7 @@ WORKDIR /test_uwsgi
 RUN /test_uwsgi/test.sh
 
 ############
-# Final 
+# Final
 ############
 FROM base
 LABEL "com.datadoghq.ad.check_names"='["nginx"]'

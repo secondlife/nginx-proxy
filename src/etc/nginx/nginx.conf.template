@@ -8,7 +8,11 @@ pid        /var/run/nginx.pid;
 load_module /usr/lib/nginx/modules/ngx_http_headers_more_filter_module.so;
 
 events {
+    {{ if .Env.WORKER_CONNECTIONS }}
+    worker_connections  {{ .Env.WORKER_CONNECTIONS }};
+    {{ else }}
     worker_connections  1024;
+    {{ end }}
     use epoll;
 }
 

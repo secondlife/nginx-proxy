@@ -6,7 +6,7 @@ environments such as AWS ECS.
 
 ## Features
 
-- Structured logs with a lot more data than the standard nginx access format. 
+- Structured logs with a lot more data than the standard nginx access format.
 - [uWSGI][] support
 - Support for hosting static assets mounted from another container
 
@@ -27,6 +27,7 @@ Pair nginx-proxy with your favorite upstream server (wsgi, uwsgi, asgi, et al.)
 | `HEALTHCHECK_PATH` | nginx-proxy disables healthcheck path access logs, you can configure the path here | Yes | /lb-status/ | |
 | `NO_ACCESS_LOGS` | disable access logs completely | No | 0 | 1 |
 | `LOG_ONLY_5XX` | only log 5XX HTTP status access events | No | 0 | 1 |
+| `WORKER_CONNECTIONS` | Set the number of allowed worker connections | No | 1024 | 2048 |
 
 ### Hosting Static Assets
 
@@ -79,7 +80,7 @@ Notable differences from the official [nginx container][]
 
 - [gomplate][] is used to render nginx configuration templates so that image startup
   is aborted if a template variable is missing. This is an improvement over the
-  official image, which uses `envsubst`. 
+  official image, which uses `envsubst`.
 - alpine's official nginx package is used in order to ensure compatibility with
   distro-provided nginx modules. This is another enhancement, as the official
   image cannot be used with alpine's nginx modules.

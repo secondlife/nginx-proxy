@@ -10,8 +10,6 @@ server {
 
 upstream app {
   server {{ .Env.UPSTREAM_SERVER }};
-
-  keepalive 8; # The maximum number of idle keepalive connections to upstream servers.
 }
 
 server {
@@ -23,9 +21,6 @@ server {
   add_header X-Frame-Options "SAMEORIGIN";
   add_header X-XSS-Protection "1; mode=block";
   add_header X-Content-Type-Options "nosniff";
-
-  proxy_http_version 1.1;
-  proxy_set_header "Connection" "";
 
   location / {
     {{ if (eq .Env.PROXY_UWSGI "1") }}

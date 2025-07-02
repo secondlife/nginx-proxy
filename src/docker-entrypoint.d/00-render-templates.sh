@@ -16,6 +16,8 @@ function render_templates {
   done
 }
 
+export WORKER_FILE_LIMIT=${WORKER_FILE_LIMIT:=$(( WORKER_CONNECTIONS * 2 ))}
+
 render_templates "/etc/nginx/*.template" "/etc/nginx"
 render_templates "/etc/nginx/conf.d/*.template" "/etc/nginx/conf.d"
 render_templates "/etc/nginx/includes/*.template" "/etc/nginx/includes"

@@ -17,6 +17,7 @@ Pair nginx-proxy with your favorite upstream server (wsgi, uwsgi, asgi, et al.)
 | Environment Variable | Description | Required | Default | Example |
 |----------------------|-------------|----------|---------|---------|
 | `LISTEN_PORT` | Server port | Yes | 80 | |
+| `STATUS_LISTEN_PORT` | nginx status port | No | 8091 | | 
 | `UPSTREAM_SERVER` | Upstream server | Yes | | myapp:8080 fail_timeout=0, unix://mnt/server.sock |
 | `PROXY_REVERSE_URL` | Upstream server URL (Deprecated, please use UPSTREAM_SERVER) | No | | http://myapp:8080 |
 | `SERVER_NAME` | Allowed server names (hostnames) | Yes | | |
@@ -65,8 +66,11 @@ then set `PROXY_REVERSE_URL=localhost:8000`.)
 
 ## Nginx status
 
-The [nginx status][] page is configured to run at
-http://localhost:8091/nginx_status. This endpoint can be used by Datadog and
+The [nginx status][] page is configured to run at  
+http://localhost:${STATUS_LISTEN_PORT}/nginx_status.
+
+Set the `STATUS_LISTEN_PORT` environment variable when you start the container
+(default: `8091`) to change the port. This endpoint can be used by Datadog and
 other metrics collectors.
 
 ## Development

@@ -1,6 +1,6 @@
 # NGINX status/stats used by datadog, et al.
 server {
-  listen 8091;
+  listen {{ .Env.STATUS_LISTEN_PORT }};
   server_name _;
 
   access_log off;

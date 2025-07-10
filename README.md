@@ -23,7 +23,9 @@ Pair nginx-proxy with your favorite upstream server (wsgi, uwsgi, asgi, et al.)
 | `SILENT` | Silence entrypoint output | No | | |
 | `STATIC_LOCATIONS` | Static asset mappings | No | | |
 | `PROXY_UWSGI` | Whether to use native uwsgi support | No | 0 | 1 |
-| `KEEPALIVE_TIMEOUT` | What value to set HTTP keepalive (This should be higher than your ELB's timeout) | Yes | 65 | |
+| `KEEPALIVE_TIMEOUT` | HTTP keepalive timeout and upstream connection timeout | Yes | 65 | |
+| `KEEPALIVE_CONNECTIONS` | Number of idle connections to keep alive to upstream | No | 32 | 64 |
+| `KEEPALIVE_REQUESTS` | Number of requests per upstream connection before recycling | No | 1000 | 2000 |
 | `HEALTHCHECK_PATH` | nginx-proxy disables healthcheck path access logs, you can configure the path here | Yes | /lb-status/ | |
 | `NO_ACCESS_LOGS` | disable access logs completely | No | 0 | 1 |
 | `LOG_ONLY_5XX` | only log 5XX HTTP status access events | No | 0 | 1 |

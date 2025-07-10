@@ -1,6 +1,7 @@
 uwsgi_pass app;
 uwsgi_param HTTP_X_REQUEST_ID $request_id;
 uwsgi_param HTTP_HOST $host;
+uwsgi_param CONNECTION "";          # Clear Connection header for keepalive
 include uwsgi_params;
 uwsgi_read_timeout {{ .Env.WSGI_TIMEOUT }};
 uwsgi_send_timeout {{ .Env.WSGI_TIMEOUT }};

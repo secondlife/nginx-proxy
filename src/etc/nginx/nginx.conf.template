@@ -29,7 +29,7 @@ http {
     keepalive_timeout  {{ .Env.KEEPALIVE_TIMEOUT }};
     
     # Enable gzip compression for better performance
-    gzip on;
+    gzip off;
     gzip_vary on;
     gzip_min_length 1024;
     gzip_comp_level 6;

@@ -10,9 +10,10 @@ server {
 
 upstream app {
   server {{ .Env.UPSTREAM_SERVER }};
-  keepalive {{ .Env.KEEPALIVE_CONNECTIONS }};
-  keepalive_requests {{ .Env.KEEPALIVE_REQUESTS }};
-  keepalive_timeout {{ .Env.KEEPALIVE_TIMEOUT }}s;
+  # Temporarily disable connection pooling to test performance
+  # keepalive {{ .Env.KEEPALIVE_CONNECTIONS }};
+  # keepalive_requests {{ .Env.KEEPALIVE_REQUESTS }};
+  # keepalive_timeout {{ .Env.KEEPALIVE_TIMEOUT }}s;
 }
 
 server {

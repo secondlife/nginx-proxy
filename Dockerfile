@@ -11,6 +11,7 @@ COPY src /
 ENV KEEPALIVE_TIMEOUT=65
 ENV PROXY_UWSGI=0
 ENV LISTEN_PORT=80
+ENV STATUS_LISTEN_PORT=8091
 ENV HEALTHCHECK_PATH="/lb-status/"
 ENV STATIC_LOCATIONS=
 ENV NO_ACCESS_LOGS=0
@@ -41,4 +42,4 @@ RUN /test_uwsgi/test.sh
 FROM base
 LABEL "com.datadoghq.ad.check_names"='["nginx"]'
 LABEL "com.datadoghq.ad.init_configs"='[{}]'
-LABEL "com.datadoghq.ad.instances"='[{"nginx_status_url": "http://localhost:8091/nginx_status/"}]'
+LABEL "com.datadoghq.ad.instances"='[{"nginx_status_url": "http://%%host%%:%%env_STATUS_LISTEN_PORT%%/nginx_status/"}]'

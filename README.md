@@ -29,7 +29,8 @@ Pair nginx-proxy with your favorite upstream server (wsgi, uwsgi, asgi, et al.)
 | `NO_ACCESS_LOGS` | disable access logs completely | No | 0 | 1 |
 | `LOG_ONLY_5XX` | only log 5XX HTTP status access events | No | 0 | 1 |
 | `WORKER_CONNECTIONS` | Set the number of allowed worker connections | No | 1024 | 2048 |
-
+| `WORKER_FILE_LIMIT` | Set the number of available file descriptors | No | `2*WORKER_CONNECTIONS` | 4096 |
+| `WSGI_TIMEOUT` | uwsgi read and write timeouts | No | `KEEPALIVE_TIMEOUT` | 4096 |
 ### Hosting Static Assets
 
 Static files can be hosted from your proxied application by sharing a volume

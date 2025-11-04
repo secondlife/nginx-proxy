@@ -1,4 +1,4 @@
-# Default configuration returns 400 in order to deny any request with an 
+# Default configuration returns 400 in order to deny any request with an
 # unrecognized host header (server_name.)
 {{ if (ne .Env.SERVER_NAME "_") }}
 server {
@@ -21,7 +21,7 @@ server {
   add_header X-Frame-Options "SAMEORIGIN";
   add_header X-XSS-Protection "1; mode=block";
   add_header X-Content-Type-Options "nosniff";
-  
+
   location / {
     {{ if (eq .Env.PROXY_UWSGI "1") }}
     include /etc/nginx/includes/uwsgi.conf;

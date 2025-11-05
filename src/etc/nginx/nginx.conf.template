@@ -53,6 +53,13 @@ http {
         default 0;
     }
 
+    {{- $explicitResolver := ne .Env.NGINX_RESOLVER "" -}}
+    {{- $shouldResolve := eq .Env.UPSTREAM_RESOLVE "1" -}}
+    {{ if or $explicitResolver $shouldResolve }}
+    # Configure DNS servers for runtime upstream re-resolution.
+    resolver {{ if $explicitResolver }}{{ .Env.NGINX_RESOLVER }}{{ else }}169.254.169.253 valid=60s{{ end }};
+    {{ end }}
+
     {{ if (eq .Env.LOG_ONLY_5XX "1") }}
     access_log /dev/stdout json_analytics if=$is5xx;
     {{ else }}

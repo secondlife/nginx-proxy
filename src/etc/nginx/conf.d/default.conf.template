@@ -9,7 +9,11 @@ server {
 {{ end }}
 
 upstream app {
-  server {{ .Env.UPSTREAM_SERVER }};
+  {{- $upstream := .Env.UPSTREAM_SERVER -}}
+  {{- $isUnixSocket := strings.HasPrefix $upstream "unix://" -}}
+  {{- $resolve := and (eq .Env.UPSTREAM_RESOLVE "1") (not $isUnixSocket) -}}
+  # Enable nginx runtime DNS re-resolution when targeting hostnames; unix sockets do not support `resolve`.
+  server {{ $upstream }}{{ if $resolve }} resolve{{ end }};
 }
 
 server {

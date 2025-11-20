@@ -20,6 +20,8 @@ Pair nginx-proxy with your favorite upstream server (wsgi, uwsgi, asgi, et al.)
 | `STATUS_LISTEN_PORT` | nginx status port | No | 8091 | | 
 | `UPSTREAM_SERVER` | Upstream server | Yes | | myapp:8080 fail_timeout=0, unix://mnt/server.sock |
 | `PROXY_REVERSE_URL` | Upstream server URL (Deprecated, please use UPSTREAM_SERVER) | No | | http://myapp:8080 |
+| `NGINX_RESOLVER` | Value for nginx `resolver` directive | No | auto* | `169.254.169.253 valid=60s` |
+| `UPSTREAM_RESOLVE` | Enable dynamic DNS resolution for the upstream (`resolve` parameter) | No | 0 | 1 |
 | `SERVER_NAME` | Allowed server names (hostnames) | Yes | | |
 | `SILENT` | Silence entrypoint output | No | | |
 | `STATIC_LOCATIONS` | Static asset mappings | No | | |
@@ -29,6 +31,20 @@ Pair nginx-proxy with your favorite upstream server (wsgi, uwsgi, asgi, et al.)
 | `NO_ACCESS_LOGS` | disable access logs completely | No | 0 | 1 |
 | `LOG_ONLY_5XX` | only log 5XX HTTP status access events | No | 0 | 1 |
 | `WORKER_CONNECTIONS` | Set the number of allowed worker connections | No | 1024 | 2048 |
+
+* Defaults to 169.254.169.253 valid=60s when `UPSTREAM_RESOLVE=1` and no custom resolver is provided.
+
+### Handling DNS Changes
+
+If your upstream service rotates IP addresses (for example when fronted by a load
+balancer), configure nginx to re-resolve the upstream host name by setting
+`NGINX_RESOLVER` to the DNS servers you want nginx to use and enabling
+`UPSTREAM_RESOLVE=1`. The value of `NGINX_RESOLVER` is passed directly to the
+[`resolver` directive][nginx-resolver], so you can include modifiers such as
+`valid=60s` or `ipv6=off`. When using a unix socket (`UPSTREAM_SERVER=unix://…`)
+the resolve option is ignored.
+If you leave `NGINX_RESOLVER` unset, nginx-proxy defaults to AWS's metadata
+resolver (`169.254.169.253 valid=60s`) whenever `UPSTREAM_RESOLVE=1`.
 
 ### Hosting Static Assets
 
@@ -93,3 +109,4 @@ Notable differences from the official [nginx container][]
 [gomplate]: https://docs.gomplate.ca/
 [uwsgi]: https://uwsgi-docs.readthedocs.io/en/latest/
 [nginx status]: https://nginx.org/en/docs/http/ngx_http_stub_status_module.html
+[nginx-resolver]: https://nginx.org/en/docs/http/ngx_http_core_module.html#resolver
